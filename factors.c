@@ -1,63 +1,53 @@
-#!/usr/bin/python3
+#include <stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
 
+/**
+ * main - this is program that computes the next
+ * smallest divisors of prime factors
+ *
+ * @argc:  number count of command line arguments
+ * @argv: name of the text file
+ *
+ * Return: Always 0
+ */
 
-import sys
-import time
+int main(int argc, char *argv[])
+{
+unsigned long long x;
+int k = 0;
+FILE *fptr;
+unsigned long long numberline[150];
+int num;
+char *filename = argv[1];
 
+fptr = fopen(filename, "r");
+while (!feof(fptr))
+{
+	fscanf(fptr, "%lli", &x);
+	numberline[k] = x;
+	k++;
+}
+unsigned long long i = 2;
+unsigned long long n;
 
-def factorize(num):
-    '''Takes a number as input.
-    Args:
-        num: input integer.
-        Return: A tuple of two factors if the number is not a prime.
-                None if the number is prime.
-    '''
-    for i in range(2, int(num**0.5)+1):
-        if num % i == 0:
-            return (i, num//i)
-    return None
-
-
-if __name__ == "__main__":
-
-
-    '''Reads the input file.
-    '''
-    if len(sys.argv) != 2:
-        print("Usage: factors <file>")
-        exit()
-
-
-    input_file = sys.argv[1]
-
-
-    try:
-        with open(input_file, 'r') as f:
-            lines = f.readlines()
-    except FileNotFoundError:
-        print("File not found")
-        exit()
-
-
-    start_time = time.time()
-
-
-    '''loops over each line (which should contain one natural number per line),
-        and calls factorize on each number.
-        If factorize returns a tuple of factors,
-        it prints the factorization in the desired forma
-    '''
-    for line in lines:
-        num = int(line.strip())
-        factors = factorize(num)
-        if factors:
-            print(f"{num}={factors[0]}*{factors[1]}")
-
-
-        '''If the elapsed time exceeds 5 seconds,
-            the program exits with an error message.
-        '''
-        if time.time() - start_time > 5:
-            print("Time limit exceeded")
-            exit()
+for (int j = 0; j < k; j++)
+{
+	n = numberline[j];
+	while (i < n)
+	{
+		if (n % i == 0)
+		{
+			n = n / i;
+			break;
+		}
+		else
+		{
+			i++;
+		}
+	}
+	printf("%llu=%llu*%llu\n", numberline[j], n, i);
+}
+return (0);
+}
 
